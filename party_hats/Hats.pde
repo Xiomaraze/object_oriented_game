@@ -34,6 +34,6 @@ class Hats {
   }
   
   void update(){
-    positionH.add(gravity); //gravity without velocity
+    //positionH.add(gravity); //gravity without velocity|| 99% sure this would continually add gravity and end up creating a railgun hat launcher, which is equally hilarious as dumb also not what i want but ill leave it in for now untill i come back to this
   }
 }
