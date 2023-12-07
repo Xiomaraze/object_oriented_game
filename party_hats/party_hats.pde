@@ -8,6 +8,7 @@ int buttonSelected = 1;
 int scoreGoal;
 int curScore;
 boolean[] hearts = new boolean[5];
+PVector[] twinkles = new PVector[10];
 
 void setup(){
   size(400, 400);
@@ -68,7 +69,7 @@ void check(Npcs last, Npcs first){
   //no purpose for this next bit besides meeting requirements
   PVector one = last.position;
   PVector two = first.position;
-  float distance = one.dist(two);
+  float distance = one.dist(two); //new PVector function ive not used before (skill 43)
   println (distance);
   if (last.position.x < (width - 50)){
     int animal = int(random(1, 4));
