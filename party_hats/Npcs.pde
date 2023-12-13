@@ -1,14 +1,15 @@
 class Npcs {
   PVector position;
-  PVector speed;
+  PVector speed = new PVector(0, 10);
   int animalType; //duck = 1, bear = 2, cat = 3
   //color animalColour;
   //color animalEdge;
   char colour;
   boolean hat;
+  int hatType; //0 is no hat, 1 = clown, 2 = crown, 3 = propeller, 4 = viking
   
-  Npcs(int ani, int ord, char col, boolean h){
-    position = new PVector(410 + ord, 370);
+  Npcs(int ani, int ord, char col, boolean h, int hatT){
+    position = new PVector(410 + (ord * 10), 370);
     //if (col == 'r') {
     //  animalColour = color(255, int(random(160, 210)), int(random(160, 255))); //assigns random redish colour
     //  animalEdge = color(235, green(animalColour) - 20, blue(animalColour) - 20); //darker colour for outline
@@ -46,6 +47,7 @@ class Npcs {
     }
     animalType = ani;
     hat = h;
+    hatType = hatT;
   }
 
 
@@ -77,5 +79,6 @@ class Npcs {
   }
   
   void update(){
+    position.add(speed);
   }
 }
