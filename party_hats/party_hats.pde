@@ -8,10 +8,7 @@ int buttonSelected = 1;
 int scoreGoal;
 int curScore;
 boolean[] hearts = new boolean[5];
-<<<<<<< .merge_file_CNSt5D
 PVector[] twinkles = new PVector[10];
-=======
->>>>>>> .merge_file_xRqXMc
 
 void setup(){
   size(400, 400);
@@ -72,11 +69,7 @@ void check(Npcs last, Npcs first){
   //no purpose for this next bit besides meeting requirements
   PVector one = last.position;
   PVector two = first.position;
-<<<<<<< .merge_file_CNSt5D
   float distance = one.dist(two); //new PVector function ive not used before (skill 43)
-=======
-  float distance = one.dist(two);
->>>>>>> .merge_file_xRqXMc
   println (distance);
   if (last.position.x < (width - 50)){
     int animal = int(random(1, 4));
