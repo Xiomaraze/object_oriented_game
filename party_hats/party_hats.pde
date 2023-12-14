@@ -71,6 +71,7 @@ void setup(){
   for (int i = 0; i < 3; i++){
     hearts[i] = true; //sets up player's life points
   }
+  chapeaux.add(new Hats(1, -10, -10)); //stationary off screen chapeaux to not run into an index error
   //loading the image files wall of loading commands oof
   duckYellow0 = loadImage("duckYellow0.png");
   duckYellow1 = loadImage("duckYellow1.png");
@@ -117,7 +118,6 @@ void setup(){
   propellerTilt = loadImage("propellerTilt.png");
   propellerStraight = loadImage("propellerStraight.png");
   rLocation = new PVector(width, 10);
-  
   int ani = int(random(1, 4));
   //target = new Npcs(, 1, 'p',  true, int(random(1, 5))); //creates target with randomized animal type and hat type. colour is ALWAYS purple to start with
   switch(ani){ //this switch statement is for the image file assignment
@@ -134,10 +134,83 @@ void setup(){
       target.position = new PVector(width-150, height-150);
       break;
   }
+  for (int t = 0; t < 5; t++){
+    int aniT = int(random(1, 4));
+    int colo = int(random(1, 7));
+    switch (colo){
+      case 1: //yellow
+        if (aniT == 1) { //duck
+          animals.add(new Npcs(aniT, t, 'y', duckYellow0, duckYellow1, false, 0));
+        }
+        else if(aniT == 2) { //bear
+          animals.add(new Npcs(aniT, t, 'y', bearYellow0, bearYellow1, false, 0));
+        }
+        else { //cat
+          animals.add(new Npcs(aniT, t, 'y', catYellow0, catYellow1, false, 0));
+        }
+        break;
+      case 2: //orange
+        if (aniT == 1) { //duck
+          animals.add(new Npcs(aniT, t, 'o', duckOrange0, duckOrange1, false, 0));
+        }
+        else if(aniT == 2) { //bear
+          animals.add(new Npcs(aniT, t, 'o', bearOrange0, bearOrange1, false, 0));
+        }
+        else { //cat
+          animals.add(new Npcs(aniT, t, 'o', catOrange0, catOrange1, false, 0));
+        }
+        break;
+      case 3: //red
+        if (aniT == 1) { //duck
+          animals.add(new Npcs(aniT, t, 'r', duckRed0, duckRed1, false, 0));
+        }
+        else if(aniT == 2) { //bear
+          animals.add(new Npcs(aniT, t, 'r', bearRed0, bearRed1, false, 0));
+        }
+        else { //cat
+          animals.add(new Npcs(aniT, t, 'r', catRed0, catRed1, false, 0));
+        }
+        break;
+      case 4: //purple
+        if (aniT == 1) { //duck
+          animals.add(new Npcs(aniT, t, 'p', duckPurple0, duckPurple1, false, 0));
+        }
+        else if(aniT == 2) { //bear
+          animals.add(new Npcs(aniT, t, 'p', bearPurple0, bearPurple1, false, 0));
+        }
+        else { //cat
+          animals.add(new Npcs(aniT, t, 'p', catPurple0, catPurple1, false, 0));
+        }
+        break;
+      case 5: //blue
+        if (aniT == 1) { //duck
+          animals.add(new Npcs(aniT, t, 'b', duckBlue0, duckBlue1, false, 0));
+        }
+        else if(aniT == 2) { //bear
+          animals.add(new Npcs(aniT, t, 'b', bearBlue0, bearBlue1, false, 0));
+        }
+        else { //cat
+          animals.add(new Npcs(aniT, t, 'b', catBlue0, catBlue1, false, 0));
+        }
+        break;
+      default: //green
+        if (aniT == 1) { //duck
+          animals.add(new Npcs(aniT, t, 'g', duckGreen0, duckGreen1, false, 0));
+        }
+        else if(aniT == 2) { //bear
+          animals.add(new Npcs(aniT, t, 'g', bearGreen0, bearGreen1, false, 0));
+        }
+        else { //cat
+          animals.add(new Npcs(aniT, t, 'g', catGreen0, catGreen1, false, 0));
+        }
+        break;
+    }
+  }
+  target = new Npcs(1, 0, 'b', duckBlue0, duckBlue0, true, 4);
+  target.position = new PVector(width-150, height-150);
 }
 
 void draw(){
-  rectMode(CORNER);
   // background art stuff here
   background(#F7F2D4);
   rectMode(CORNERS);
@@ -152,19 +225,33 @@ void draw(){
   rect(-5, 361, 405, 380);
   fill(149, 112, 66, 200);
   rect(-5, 381, 405, 400);
+  
   //drawing the animals
-  for (int k = animals.size() - 1; k >= 0; k--){
-    Npcs current = animals.get(k);
-    current.display();
-    current.update();
-    //if the animal moves beyond view remove the animal
-    if (current.position.x < -10){
-      animals.remove(k);
+  for (int k = 1; k < animals.size() - 1; k++){
+    animals.get(k).display();
+    animals.get(k).update();
+    for (int u = 0; u < chapeaux.size() - 1; u++){
+      if ((chapeaux.get(u).positionH.x >= animals.get(k).position.x + 40) && (chapeaux.get(u).positionH.x <= animals.get(k).position.x + 110)){
+        if ((chapeaux.get(u).positionH.y >= animals.get(k).position.y + 10) && (chapeaux.get(u).positionH.y <= animals.get(k).position.y + 45)){
+          animals.get(k).hat = true;
+          animals.get(k).hatType = chapeaux.get(u).hatType;
+          chapeaux.get(u).hatType = 0;
+          //this is just for fun, as well as to use the 2D random vector
+          chapeaux.get(u).positionH = PVector.random2D();
+        }
+      }
     }
   }
   UI();
   target.display();
   robotArm();
+  int last = animals.size()-1;
+  check(animals.get(0), animals.get(last));
+  for (int u = 0; u < chapeaux.size() - 1; u++){
+    chapeaux.get(u).display();
+    chapeaux.get(u).update();
+  }//please dont spawn a million hats, i was unable to implement removal without too much frustration with index errors
+  text("Your Score:" + curScore + "       Score Goal:" + scoreGoal, 10, 10);
 }
 
 void UI(){
@@ -178,10 +265,10 @@ void UI(){
   rect(110, 10, 60, 60);
   rect(210, 10, 60, 60);
   rect(310, 10, 60, 60);
-  image(clownStraight, -35, -35);
-  image(vikingStraight, 65, -35);
-  image(crownStraight, 165, -35);
-  image(propellerStraight, 265, -25);
+  image(clownStraight, 15, 15);
+  image(vikingStraight, 115, 15);
+  image(propellerStraight, 215, 15);
+  image(crownStraight, 315, 15);
 }
 
 void mousePressed(){
@@ -189,20 +276,23 @@ void mousePressed(){
   if (buttonSelected == 0){
     println ("Error 404, hat not found.");
   }
+  else {
+    chapeaux.add(new Hats(buttonSelected, rLocation.x, 60));
+  }
 }
 
 void keyPressed(){
   switch(key){
-    case 1: //clown
+    case '1': //clown
       buttonSelected = 1;
       break;
-    case 2: //crown
+    case '2': //viking
       buttonSelected = 2;
       break;
-    case 3: //propeller
+    case '3': //propeller
       buttonSelected = 3;
       break;
-    case 4: //viking
+    case '4': //crown
       buttonSelected = 4;
       break;
     default: //error
@@ -222,11 +312,12 @@ void robotArm(){
 }
 
 void check(Npcs last, Npcs first){
-  //this function checks each animal that 
+  //this function checks each animal that exits the screen as well as prints distance between the first and last animals
   PVector one = last.position;
   PVector two = first.position;
   float distance = one.dist(two); //new PVector function ive not used before (skill 43) will be printed to console
-  println (distance);
+    fill(0);
+    text("Distance between first animal and last animal:" + distance, 20, 380);
   if (last.position.x < (width - 50)){
     int animal = int(random(1, 4));
     int colour = int(random(1, 7));
