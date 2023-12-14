@@ -116,6 +116,7 @@ void setup(){
   vikingStraight = loadImage("vikingStraight.png");
   propellerTilt = loadImage("propellerTilt.png");
   propellerStraight = loadImage("propellerStraight.png");
+  rLocation = new PVector(width, 10);
   
   int ani = int(random(1, 4));
   //target = new Npcs(, 1, 'p',  true, int(random(1, 5))); //creates target with randomized animal type and hat type. colour is ALWAYS purple to start with
@@ -161,8 +162,26 @@ void draw(){
       animals.remove(k);
     }
   }
+  UI();
   target.display();
-  //rLocation.x = constrain(mouseX, 10, width-10);
+  robotArm();
+}
+
+void UI(){
+  fill(#AAAAAA);
+  noStroke();
+  rectMode (CORNER);
+  rect(0, 0, width + 2, 80);
+  rect(250, 250, 150, 150);
+  fill(#868686);
+  rect(10, 10, 60, 60);
+  rect(110, 10, 60, 60);
+  rect(210, 10, 60, 60);
+  rect(310, 10, 60, 60);
+  image(clownStraight, -35, -35);
+  image(vikingStraight, 65, -35);
+  image(crownStraight, 165, -35);
+  image(propellerStraight, 265, -25);
 }
 
 void mousePressed(){
@@ -195,7 +214,11 @@ void keyPressed(){
 
 void robotArm(){
   //this should be the stuff to display the arm
-  
+  fill(#AAAAAA);
+  noStroke();
+  rectMode (CORNER);
+  rLocation.x = constrain(mouseX, 20, width - 40);
+  rect(rLocation.x, 80, 20, 50);
 }
 
 void check(Npcs last, Npcs first){
